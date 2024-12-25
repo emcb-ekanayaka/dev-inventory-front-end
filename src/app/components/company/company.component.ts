@@ -56,6 +56,15 @@ export class CompanyComponent {
           }
 
         });
+    }else{
+      this.companyService.createCompany(this.companyObj,this.type)
+          .subscribe({
+            next:(result):void=>{
+              this.GetAllCompanies();  
+            }
+          });
+      swal("Sucessfull!", "Company has been updated!", "success");
+      this.ResetForm();
     }
   }
   ResetForm(): void {
@@ -72,6 +81,13 @@ export class CompanyComponent {
     this.companyService.GetAllCompanies().subscribe(allData => {
       this.companies = allData.data.dataList;
     })
+  }
+
+  GetCompanyById(ID:any){
+    this.companyService.GetCompanyById(ID).subscribe(allData=>{ 
+    this.companyObj = allData.data.dataList[0];
+    this.isEditStudent = true;
+  })
   }
 
 }
