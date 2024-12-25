@@ -86,11 +86,11 @@ export class ComwarehouseComponent {
             .subscribe({
               next: (result: any): void => {
                 console.log(result.code);
-                
+
                 if (result.code === 201) {
                   swal("Success!", "Com-Warehouse has been added!", "success");
                   this.GetAllComWarehoues();
-                 
+
                 } else if (result.code === 400) {
                   swal("Duplicate!", "Company-Warehouse already exists!", "error");
                   this.GetAllComWarehoues();
@@ -131,6 +131,31 @@ export class ComwarehouseComponent {
       // Set isEditClass to true for toggling the submit button
       this.isEditClass = true;
     });
+  }
+
+  DeleteById(objId: any) {
+    this.comWarehouseService.GetComWarehouesById(objId).subscribe(allData => {
+      this.comWarehouseId = allData.data.dataList[0].id;
+      swal({
+        title: "Are you sure? To Delete",
+        icon: "warning",
+        dangerMode: true,
+      })
+        .then(willDelete => {
+          if (willDelete) {
+            this.comWarehouseService.DeleteComWarehouseById(this.comWarehouseId)
+              .subscribe({
+                next: (allData): void => {
+                  this.GetAllComWarehoues();
+                }
+              });
+            
+            swal("Sucessfull!", "Com Warehouese has been Deleted!", "success");
+          }
+
+        });
+
+    })
   }
 
 }
