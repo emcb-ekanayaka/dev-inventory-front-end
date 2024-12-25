@@ -25,6 +25,10 @@ export class ComWarehouseServiceService {
     }
   }
 
+  GetAllComWarehoues():Observable<any>{
+    return this.http.get(this.baseUrl);
+  }
+
   GetComWareByComAndWarehouse(companyId: any, warehouseId: any): Observable<any> {
     return this.http.get(this.baseUrl + "/" + companyId + "/" + warehouseId);
   }

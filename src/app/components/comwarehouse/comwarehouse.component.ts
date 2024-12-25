@@ -20,6 +20,7 @@ export class ComwarehouseComponent {
 
   allCompanies: any;
   allWarehouse: any;
+  allComWarehoues:any;
 
   comWarehouseId: any;
   warehouseId: any;
@@ -42,8 +43,16 @@ export class ComwarehouseComponent {
     this.isEditClass == false;
     this.GetAllCompanies();
     this.GetAllWarehouses();
+    this.GetAllComWarehoues();
   }
 
+  GetAllComWarehoues(){
+    this.comWarehouseService.GetAllComWarehoues().subscribe(allData => {
+      this.allComWarehoues = allData.data.dataList;
+      console.log(this.allComWarehoues);
+      
+    })
+  }
   GetAllCompanies() {
     this.companyService.GetAllCompanies().subscribe(allData => {
       this.allCompanies = allData.data.dataList;
@@ -97,4 +106,6 @@ export class ComwarehouseComponent {
       swal("Sucessfull!", "Com-Warehouse has been updated!", "success");
     }
   }
+
+
 }
