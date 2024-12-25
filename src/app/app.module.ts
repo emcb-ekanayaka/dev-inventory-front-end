@@ -8,10 +8,12 @@ import { HttpClientModule } from '@angular/common/http';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { WarehouseComponent } from './components/warehouse/warehouse.component';
 @NgModule({
   declarations: [
     AppComponent,
-    CompanyComponent
+    CompanyComponent,
+    WarehouseComponent
   ],
   exports:[CompanyComponent],
   imports: [
