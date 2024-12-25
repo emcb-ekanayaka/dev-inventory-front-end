@@ -1,0 +1,49 @@
+<main class="mt-5 pt-3">
+    <div class="container-fluid">
+
+      <div class="row">
+        <div class="col-md-12 fw-bold fs-3">
+          COMAPNY WAREHOUSE REGISTRATION
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-12 mb-3">
+          <div class="card text-dark mb-3 h-100">
+            <div class="card-header bg-info fw-bold">Course Form</div>
+            <div class="card-body">
+              <form (ngSubmit)="SaveComWarehouse()">
+  
+                    
+                <div class="form-group mt-1">
+                    <label for="companyId">Company Name <span>*</span></label>
+                    <select class="form-control form-select mt-2" id="companyId" name="companyId" aria-label="Default select example"
+                    (change)="onChangeCompany($event)" required>
+                    <option disabled selected>{{isEditClass === true ? companyValue : "Select comapny"}}</option>
+                    <option  *ngFor="let comapny of allCompanies" [value]="comapny.companyName">{{comapny.companyName}}</option>
+                    </select>
+                </div>
+
+                    
+                <div class="form-group mt-1">
+                    <label for="courseName">Warehouse Name <span>*</span></label>
+                    <select class="form-control form-select mt-2" id="courseName" name="courseName" aria-label="Default select example"
+                    (change)="onChangeWarehouse($event)" required>
+                    <option disabled selected>{{isEditClass === true ? warehouseValue : "Select Warehouse"}}</option>
+                    <option  *ngFor="let warehouse of allWarehouse" [value]="warehouse.warehouseName">{{warehouse.warehouseName}}</option>
+                    </select>
+                </div>
+                
+                <div class="form-group mt-4">
+                    <div class="text-end ms-auto">
+                      <button class="btn btn-primary"> {{isEditClass == false ? "submit" : "update"}}</button>
+                    </div>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div> 
+      </div>
+    </div>
+  </main>
