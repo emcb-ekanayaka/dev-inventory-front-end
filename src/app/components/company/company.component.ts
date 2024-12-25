@@ -48,7 +48,7 @@ export class CompanyComponent {
             this.companyService.createCompany(this.companyObj, this.type)
               .subscribe({
                 next: (result): void => {
-                  this.GetAllCompanies();  
+                  this.GetAllCompanies();
                 }
               });
             swal("Sucessfull!", "Company has been Adedd!", "success");
@@ -56,13 +56,13 @@ export class CompanyComponent {
           }
 
         });
-    }else{
-      this.companyService.createCompany(this.companyObj,this.type)
-          .subscribe({
-            next:(result):void=>{
-              this.GetAllCompanies();  
-            }
-          });
+    } else {
+      this.companyService.createCompany(this.companyObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllCompanies();
+          }
+        });
       swal("Sucessfull!", "Company has been updated!", "success");
       this.ResetForm();
     }
@@ -83,11 +83,29 @@ export class CompanyComponent {
     })
   }
 
-  GetCompanyById(ID:any){
-    this.companyService.GetCompanyById(ID).subscribe(allData=>{ 
-    this.companyObj = allData.data.dataList[0];
-    this.isEditStudent = true;
-  })
+  GetCompanyById(ID: any) {
+    this.companyService.GetCompanyById(ID).subscribe(allData => {
+      this.companyObj = allData.data.dataList[0];
+      this.isEditStudent = true;
+    })
+  }
+
+  DeleteById(ID: any) {
+    swal({
+      title: "Are you sure",
+      text: "That you want to Delete this Company?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then(willDelete => {
+        if (willDelete) {
+          swal("Deleted!", "Company has been deleted!", "success");
+          this.companyService.DeleteCompanyById(ID).subscribe(allData => {
+            this.GetAllCompanies();
+          })
+        }
+      });
+
   }
 
 }
