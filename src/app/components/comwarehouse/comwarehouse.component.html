@@ -54,6 +54,13 @@
         <div class="card text-dark  mb-3 h-100">
           <div class="card-header bg-primary text-white fw-bold">Table</div>
           <div class="card-body">
+
+            <div class="input-group mb-3">
+              <input type="text" class="form-control"
+              (input)="filterCompanies()" [(ngModel)]="searchTerm" placeholder="Search Student" aria-label="Search">
+              <button class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
+            </div>
+
             <table class="table table-striped table-bordered table-wrapper">
               <thead>
                 <tr>
@@ -64,7 +71,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let comWareObj of allComWarehoues">
+                <tr *ngFor="let comWareObj of filtereComdWarehoues">
                   <td>{{comWareObj.id}}</td>
                   <td>{{comWareObj.companyId.companyName}}</td>
                   <td>{{comWareObj.warehouseId.warehouseName}}</td>

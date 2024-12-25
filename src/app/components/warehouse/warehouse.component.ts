@@ -74,9 +74,28 @@ export class WarehouseComponent {
     };
   }
 
+  filteredWarehoues = [...this.warehouses]; // Start with all companies
+  searchTerm: string = '';
+
+  filterCompanies(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      // Reset to the full list if the search term is empty
+      this.filteredWarehoues = [...this.warehouses];
+    } else {
+      this.filteredWarehoues = this.warehouses.filter((warehouse) =>
+        Object.values(warehouse).some((value) => {
+          // Ensure value is not null/undefined and safely convert to a string for comparison
+          return value != null && value.toString().toLowerCase().includes(term);
+        })
+      );
+    }
+  }
+
   GetAllWarehouse() {
     this.warehouseService.GetAllWarehouses().subscribe(allData => {
       this.warehouses = allData.data.dataList;
+      this.filteredWarehoues = [...this.warehouses];
     })
   }
   GetWarehouseById(ID: any) {
