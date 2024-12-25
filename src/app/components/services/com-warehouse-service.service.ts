@@ -9,7 +9,6 @@ export class ComWarehouseServiceService {
 
 
   private baseUrl: string = 'http://localhost:8003/api/v1/companyhaswarehouse';
-  private companyBaseUrl: string = 'http://localhost:8003/api/v1/company';
 
   constructor(
     private http: HttpClient
@@ -29,16 +28,8 @@ export class ComWarehouseServiceService {
     return this.http.get(this.baseUrl);
   }
 
-  GetComWareByComAndWarehouse(companyId: any, warehouseId: any): Observable<any> {
-    return this.http.get(this.baseUrl + "/" + companyId + "/" + warehouseId);
-  }
-
-  GetComWarehouseById(ID: any): Observable<any> {
-    return this.http.get(this.baseUrl + "/" + ID);
-  }
-
-  GetWarehouseForComWarehouse(ID: any): Observable<any> {
-    return this.http.get(this.companyBaseUrl + "/getClass/" + ID);
+  GetComWarehouesById(ID:any):Observable<any>{
+    return this.http.get(this.baseUrl+"/"+ID);
   }
 
   DeleteComWarehouseById(ID: any): Observable<any> {
