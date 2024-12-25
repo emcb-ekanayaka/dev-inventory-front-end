@@ -20,7 +20,7 @@ export class ComwarehouseComponent {
 
   allCompanies: any;
   allWarehouse: any;
-  allComWarehoues:any;
+  allComWarehoues: any;
 
   comWarehouseId: any;
   warehouseId: any;
@@ -46,11 +46,9 @@ export class ComwarehouseComponent {
     this.GetAllComWarehoues();
   }
 
-  GetAllComWarehoues(){
+  GetAllComWarehoues() {
     this.comWarehouseService.GetAllComWarehoues().subscribe(allData => {
       this.allComWarehoues = allData.data.dataList;
-      console.log(this.allComWarehoues);
-      
     })
   }
   GetAllCompanies() {
@@ -79,33 +77,60 @@ export class ComwarehouseComponent {
       console.log(this.comWareObj);
       swal({
         title: "Are you sure?",
-        text: "That you want to Add this details?",
+        text: "Do you want to add these details?",
         icon: "warning",
         dangerMode: true,
-      })
-        .then(willDelete => {
-          if (willDelete) {
-            this.comWarehouseService.createComWarehouse(this.comWareObj, this.type)
-              .subscribe({
-                next: (result): void => {
-                  //this.GetAllStudents();  
-                }
-              });
-            swal("Sucessfull!", "Com-Warehouse has been Adedd!", "success");
-          }
+      }).then(willAdd => {
+        if (willAdd) {
+          this.comWarehouseService.createComWarehouse(this.comWareObj, this.type)
+            .subscribe({
+              next: (result: any): void => {
+                console.log(result.code);
+                
+                if (result.code === 201) {
+                  swal("Success!", "Com-Warehouse has been added!", "success");
+                  this.GetAllComWarehoues();
+                 
+                } else if (result.code === 400) {
+                  swal("Duplicate!", "Company-Warehouse already exists!", "error");
+                  this.GetAllComWarehoues();
 
-        });
+                }
+              },
+              error: (error: any): void => {
+                swal("Error!", "Failed to add Com-Warehouse. Please try again.", "error");
+              }
+            });
+        }
+      });
     }
     else {
       this.comWarehouseService.createComWarehouse(this.comWareObj, this.type)
         .subscribe({
           next: (result): void => {
-            //this.GetAllStudents();  
+            this.GetAllComWarehoues();
+            this.isEditClass = false
           }
         });
       swal("Sucessfull!", "Com-Warehouse has been updated!", "success");
     }
   }
 
+  GetComWarehouseById(comwarehouesepanyID: any) {
+    this.comWarehouseService.GetComWarehouesById(comwarehouesepanyID).subscribe(allData => {
+      const Obj = allData.data.dataList[0];
+
+      // Bind the values for selection
+      this.companyValue = Obj.companyId.companyName;
+      this.warehouseValue = Obj.warehouseId.warehouseName;
+
+      this.comWareObj.id = Obj.id;
+      this.comWareObj.companyName = Obj.companyId.companyName;
+      this.comWareObj.warehouseName = Obj.warehouseId.warehouseName;
+
+      // Set isEditClass to true for toggling the submit button
+      this.isEditClass = true;
+    });
+  }
 
 }
