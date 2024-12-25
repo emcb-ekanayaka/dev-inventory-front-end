@@ -29,7 +29,7 @@ export class CompanyComponent {
 
   ngOnInit(): void {
     this.isEditStudent == false;
-    //this.GetAllCompanies();
+    this.GetAllCompanies();
   }
 
 
@@ -48,7 +48,7 @@ export class CompanyComponent {
             this.companyService.createCompany(this.companyObj, this.type)
               .subscribe({
                 next: (result): void => {
-                  //this.GetAllCompanies();  
+                  this.GetAllCompanies();  
                 }
               });
             swal("Sucessfull!", "Company has been Adedd!", "success");
@@ -67,4 +67,11 @@ export class CompanyComponent {
       brNumber: '',
     };
   }
+
+  GetAllCompanies() {
+    this.companyService.GetAllCompanies().subscribe(allData => {
+      this.companies = allData.data.dataList;
+    })
+  }
+
 }
