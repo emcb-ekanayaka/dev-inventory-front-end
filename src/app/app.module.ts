@@ -9,13 +9,15 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
 import { WarehouseComponent } from './components/warehouse/warehouse.component';
+import { ComwarehouseComponent } from './components/comwarehouse/comwarehouse.component';
 @NgModule({
   declarations: [
     AppComponent,
     CompanyComponent,
-    WarehouseComponent
+    WarehouseComponent,
+    ComwarehouseComponent
   ],
-  exports:[CompanyComponent],
+  exports:[CompanyComponent,ComwarehouseComponent,WarehouseComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,
