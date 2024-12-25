@@ -77,9 +77,30 @@ export class CompanyComponent {
     };
   }
 
+  filteredCompanies = [...this.companies]; // Start with all companies
+  searchTerm: string = '';
+
+  filterCompanies(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+    if (!term) {
+      // Reset to the full list if the search term is empty
+      this.filteredCompanies = [...this.companies];
+    } else {
+      this.filteredCompanies = this.companies.filter((company) =>
+        Object.values(company).some((value) => {
+          // Ensure value is not null/undefined and safely convert to a string for comparison
+          return value != null && value.toString().toLowerCase().includes(term);
+        })
+      );
+    }
+  }
+  
+  
+
   GetAllCompanies() {
     this.companyService.GetAllCompanies().subscribe(allData => {
       this.companies = allData.data.dataList;
+      this.filteredCompanies = [...this.companies];
     })
   }
 

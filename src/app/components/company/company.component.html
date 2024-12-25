@@ -63,7 +63,8 @@
           <div class="card-body overflow-auto">
 
             <div class="input-group mb-3">
-              <input type="text" class="form-control" placeholder="Search Student" aria-label="Search">
+              <input type="text" class="form-control"
+              (input)="filterCompanies()" [(ngModel)]="searchTerm" placeholder="Search Student" aria-label="Search">
               <button class="btn btn-primary" type="button"><i class="bi bi-search"></i></button>
             </div>
 
@@ -80,7 +81,7 @@
                 </tr>
               </thead>
               <tbody>
-                <tr *ngFor="let companyObj of companies">
+                <tr *ngFor="let companyObj of filteredCompanies">
                   <td>{{companyObj.id}}</td>
                   <td>{{companyObj.companyCode}}</td>
                   <td>{{companyObj.companyName}}</td>

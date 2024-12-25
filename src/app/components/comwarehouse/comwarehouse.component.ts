@@ -20,7 +20,7 @@ export class ComwarehouseComponent {
 
   allCompanies: any;
   allWarehouse: any;
-  allComWarehoues: any;
+  allComWarehoues:  Array<any> = [];
 
   comWarehouseId: any;
   warehouseId: any;
@@ -46,9 +46,40 @@ export class ComwarehouseComponent {
     this.GetAllComWarehoues();
   }
 
+  
+  filtereComdWarehoues = [...this.allComWarehoues]; // Start with all companies
+  searchTerm: string = '';
+
+  filterCompanies(): void {
+    const term = this.searchTerm.trim().toLowerCase();
+  
+    if (!term) {
+      // Reset to the full list if the search term is empty
+      this.filtereComdWarehoues = [...this.allComWarehoues];
+    } else {
+      this.filtereComdWarehoues = this.allComWarehoues.filter((company) => {
+        // Flatten the company object to include nested properties
+        const flatCompany = {
+          ...company,
+          companyId: JSON.stringify(company.companyId), // Convert nested object to a searchable string
+          warehouseId: JSON.stringify(company.warehouseId),
+        };
+  
+        // Search across all flattened values
+        return Object.values(flatCompany).some((value) => {
+          return value != null && value.toString().toLowerCase().includes(term);
+        });
+      });
+    }
+  }
+  
+
   GetAllComWarehoues() {
     this.comWarehouseService.GetAllComWarehoues().subscribe(allData => {
       this.allComWarehoues = allData.data.dataList;
+      console.log(this.allComWarehoues);
+      
+      this.filtereComdWarehoues = [...this.allComWarehoues]; 
     })
   }
   GetAllCompanies() {
@@ -70,6 +101,7 @@ export class ComwarehouseComponent {
   onChangeWarehouse(ID: any) {
     this.comWareObj.warehouseName = ID.target.value;
   }
+
 
   SaveComWarehouse(): void {
     this.type = this.isEditClass == false ? 'Add' : 'Update';
