@@ -28,7 +28,7 @@ export class WarehouseComponent {
 
   ngOnInit(): void {
     this.isEditStudent == false;
-    //this.GetAllWarehouse();
+    this.GetAllWarehouse();
   }
 
 
@@ -65,6 +65,11 @@ export class WarehouseComponent {
     };
   }
 
+  GetAllWarehouse() {
+    this.warehouseService.GetAllWarehouses().subscribe(allData => {
+      this.warehouses = allData.data.dataList;
+    })
+  }
 
 
 }
