@@ -55,7 +55,16 @@ export class WarehouseComponent {
           }
 
         });
-    } 
+    } else {
+      this.warehouseService.createWarehouse(this.WarehouseObj, this.type)
+        .subscribe({
+          next: (result): void => {
+            this.GetAllWarehouse();
+          }
+        });
+      swal("Sucessfull!", "Warehouse has been updated!", "success");
+      this.ResetForm();
+    }
   }
   ResetForm(): void {
     this.WarehouseObj = {
@@ -68,6 +77,12 @@ export class WarehouseComponent {
   GetAllWarehouse() {
     this.warehouseService.GetAllWarehouses().subscribe(allData => {
       this.warehouses = allData.data.dataList;
+    })
+  }
+  GetWarehouseById(ID: any) {
+    this.warehouseService.GetWarehouseById(ID).subscribe(allData => {
+      this.WarehouseObj = allData.data.dataList[0];
+      this.isEditStudent = true;
     })
   }
 
