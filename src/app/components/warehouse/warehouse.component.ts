@@ -47,7 +47,7 @@ export class WarehouseComponent {
             this.warehouseService.createWarehouse(this.WarehouseObj, this.type)
               .subscribe({
                 next: (result): void => {
-                  //this.GetAllWarehouse();
+                  this.GetAllWarehouse();
                 }
               });
             swal("Sucessfull!", "Warehouse has been Adedd!", "success");
@@ -84,6 +84,24 @@ export class WarehouseComponent {
       this.WarehouseObj = allData.data.dataList[0];
       this.isEditStudent = true;
     })
+  }
+
+  DeleteById(ID: any) {
+    swal({
+      title: "Are you sure",
+      text: "That you want to Delete this Warehouse?",
+      icon: "warning",
+      dangerMode: true,
+    })
+      .then(willDelete => {
+        if (willDelete) {
+          swal("Deleted!", "Warehouse has been deleted!", "success");
+          this.warehouseService.DeleteWarehouseById(ID).subscribe(allData => {
+            this.GetAllWarehouse();
+          })
+        }
+      });
+
   }
 
 
