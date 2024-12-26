@@ -41,20 +41,28 @@ export class WarehouseComponent {
         text: "That you want to Add this details?",
         icon: "warning",
         dangerMode: true,
-      })
-        .then(willDelete => {
-          if (willDelete) {
-            this.warehouseService.createWarehouse(this.WarehouseObj, this.type)
-              .subscribe({
-                next: (result): void => {
+      }).then(willAdd => {
+        if (willAdd) {
+          this.warehouseService.createWarehouse(this.WarehouseObj, this.type)
+            .subscribe({
+              next: (result: any): void => {
+  
+                if (result.code === 201) {
+                  swal("Success!", "Warehouse has been added!", "success");
                   this.GetAllWarehouse();
-                }
-              });
-            swal("Sucessfull!", "Warehouse has been Adedd!", "success");
-            this.ResetForm();
-          }
 
-        });
+                } else if (result.code === 400) {
+                  swal("Duplicate!", "Warehouse already exists!", "error");
+                  this.GetAllWarehouse();
+
+                }
+              },
+              error: (error: any): void => {
+                swal("Error!", "Failed to add Warehouse. Please try again.", "error");
+              }
+            });
+        }
+      });
     } else {
       this.warehouseService.createWarehouse(this.WarehouseObj, this.type)
         .subscribe({

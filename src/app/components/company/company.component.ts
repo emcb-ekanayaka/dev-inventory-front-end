@@ -42,20 +42,29 @@ export class CompanyComponent {
         text: "That you want to Add this details?",
         icon: "warning",
         dangerMode: true,
-      })
-        .then(willDelete => {
-          if (willDelete) {
-            this.companyService.createCompany(this.companyObj, this.type)
-              .subscribe({
-                next: (result): void => {
-                  this.GetAllCompanies();
-                }
-              });
-            swal("Sucessfull!", "Company has been Adedd!", "success");
-            this.ResetForm();
-          }
+      }).then(willAdd => {
+        if (willAdd) {
+          this.companyService.createCompany(this.companyObj, this.type)
+            .subscribe({
+              next: (result: any): void => {
+                console.log(result.code);
 
-        });
+                if (result.code === 201) {
+                  swal("Success!", "Company has been added!", "success");
+                  this.GetAllCompanies();
+
+                } else if (result.code === 400) {
+                  swal("Duplicate!", "Company already exists!", "error");
+                  this.GetAllCompanies();
+
+                }
+              },
+              error: (error: any): void => {
+                swal("Error!", "Failed to add Company. Please try again.", "error");
+              }
+            });
+        }
+      });
     } else {
       this.companyService.createCompany(this.companyObj, this.type)
         .subscribe({
